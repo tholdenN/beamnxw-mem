@@ -1,0 +1,92 @@
+{
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "anthropic/claude-sonnet-4-5"
+      },
+      "workspace": "~/.openclaw/workspace"
+    }
+  },
+  "plugins": {
+    "entries": {
+      "anthropic": {
+        "enabled": true
+      },
+      "openclaw-mem0": {
+        "enabled": true,
+        "config": {
+          "oss": {
+            "llm": {
+              "provider": "ollama",
+              "config": {
+                "model": "llama3.1:8b",
+                "url": "http://localhost:11434"
+              }
+            },
+            "embedder": {
+              "provider": "ollama",
+              "config": {
+                "model": "nomic-embed-text",
+                "url": "http://localhost:11434",
+                "embeddingDims": 768
+              }
+            },
+            "vectorStore": {
+              "provider": "qdrant",
+              "config": {
+                "url": "http://localhost:6333",
+                "onDisk": true,
+                "dimension": 768,
+                "embeddingModelDims": 768,
+                "collectionName": "mem0_768d"
+              }
+            }
+          },
+          "apiKey": "",
+          "userId": "demo-user",
+          "autoCapture": true,
+          "autoRecall": true,
+          "mode": "open-source"
+        },
+        "hooks": {
+          "allowConversationAccess": true
+        }
+      }
+    },
+    "slots": {
+      "memory": "openclaw-mem0"
+    }
+  },
+  "gateway": {
+    "auth": {
+      "mode": "token",
+      "token": "openclaw-demo"
+    },
+    "port": 18789,
+    "bind": "loopback",
+    "mode": "local",
+    "controlUi": {
+      "allowInsecureAuth": true
+    }
+  },
+  "hooks": {
+    "internal": {
+      "enabled": false
+    }
+  },
+  "tools": {
+    "web": {
+      "search": {
+        "provider": "duckduckgo"
+      }
+    }
+  },
+  "auth": {
+    "profiles": {
+      "anthropic:default": {
+        "provider": "anthropic",
+        "mode": "api_key"
+      }
+    }
+  }
+}
